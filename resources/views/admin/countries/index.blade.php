@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Countries')
+@section('title',  request()->getHost() .' - Admin - Countries')
 @section('content')
     <script>
         //choose file 

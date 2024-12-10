@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $supplier->name)
+@section('title',  request()->getHost() ." - ".$supplier->name)
 @section('content')
     <main class="container-fluid p-0 bg-grey">
 

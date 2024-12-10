@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Supplier edit')
+@section('title',  request()->getHost() .' - Admin - Supplier edit')
 @section('content')
 
     <div class="container">

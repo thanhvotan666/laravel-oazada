@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Profile')
+@section('title',  request()->getHost() .' - Profile')
 @section('content')
     <main class="container-fluid bg-grey">
         @include('include.showAlert')

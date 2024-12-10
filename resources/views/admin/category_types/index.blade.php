@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Catrgory Types')
+@section('title',  request()->getHost() . ' - Admin - Catrgory Types')
 @section('content')
     <div class="container-fluid d-flex flex-column gap-4 ">
         <div class="p-5 d-flex flex-column gap-4">

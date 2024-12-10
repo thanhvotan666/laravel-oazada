@@ -1,6 +1,6 @@
 @extends('layouts.app');
 
-@section('title', $product->name)
+@section('title', request()->getHost() . ' - ' . $product->name)
 @section('content')
     <link rel="stylesheet" href="{{ asset('storage/css/product.css') }}">
     <main>

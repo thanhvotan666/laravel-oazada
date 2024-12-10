@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Search Products')
+@section('title',  request()->getHost() . ' - Search Products')
 @section('content')
     <link rel="stylesheet" href="{{ asset('storage/css/trade.css') }}">
     <script>

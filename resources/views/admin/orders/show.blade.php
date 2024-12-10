@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Order show')
+@section('title',  request()->getHost() . ' - Admin - Order show')
 @section('content')
     <main class="container-fluid bg-grey">
         <div class="container">
