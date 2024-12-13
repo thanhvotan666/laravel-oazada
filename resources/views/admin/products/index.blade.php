@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title',  request()->getHost() .' - Admin - Products')
+@section('title', request()->getHost() . ' - Admin - Products')
 @section('content')
     <div class="container-fluid d-flex flex-column gap-4 ">
         <div class="p-5 d-flex flex-column gap-4">
@@ -27,7 +27,7 @@
                                         </svg>
                                     </button>
                                     <input name="name" type="text" class="form-control"
-                                        placeholder="Search by user name ..." aria-label="Username"
+                                        placeholder="Search by product name ..." aria-label="Productname"
                                         aria-describedby="basic-addon1" value="{{ request('name') }}">
                                 </div>
                                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -203,10 +203,13 @@
                                                 <li><a class="dropdown-item"
                                                         href="{{ route('product', ['id' => $product->id]) }}">View</a>
                                                 </li>
-                                                {{-- <li><a class="dropdown-item"
-                                                        href="{{ route('admin.products.edit', ['product' => $product->id]) }}">Edit</a>
-                                                </li>
                                                 <li>
+                                                    <div class="btn dropdown-item" data-bs-toggle="modal"
+                                                        data-bs-target="#editProductModal{{ $product->id }}">
+                                                        Edit
+                                                    </div>
+                                                </li>
+                                                {{-- <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
                                                 <li>
@@ -265,4 +268,42 @@
             });
         });
     </script>
+    @foreach ($products as $product)
+        <div class="modal fade" id="editProductModal{{ $product->id }}" tabindex="-1"
+            aria-labelledby="editProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Product Image : id = {{ $product->id }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="ProductForm" action="{{ route('admin.products.update', ['product' => $product->id]) }}"
+                            method="post" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-3">
+                                <label for="name" class="h5">Display Name <sup
+                                        class="text-danger">*</sup></label>
+                                <div>
+                                    <input type="text" name="name" class="control-form">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fileUpload" class="h5">Display image <sup
+                                        class="text-danger">*</sup></label>
+                                <div>
+                                    <input type="file"accept="image/*" name="image">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-success">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection

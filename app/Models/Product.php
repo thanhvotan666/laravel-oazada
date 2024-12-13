@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code', 'name', 'description', 'image', 'is_variant', 'category_id', 'supplier_id', 'hidden'];
+    protected $fillable = ['code', 'name', 'description', 'image', 'is_variant', 'category_id', 'supplier_id', 'hidden', 'view'];
 
     public function category()
     {
@@ -40,5 +40,10 @@ class Product extends Model
     public function reviews()
     {
         return $this->hasMany(ProductReview::class);
+    }
+
+    public function keywords()
+    {
+        return $this->hasMany(ProductKeyword::class);
     }
 }

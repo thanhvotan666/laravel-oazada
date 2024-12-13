@@ -83,6 +83,9 @@ class ProductsController extends Controller
             'stock' => 'nullable|numeric|min:0',
             'weight' => 'nullable|numeric|min:0',
 
+            'keywords' => 'nullable|array',
+            'keywords.*' => 'string|max:255',
+
         ]);
         if ($request->hasFile('image')) {
             $imageName = '/product-' . time() . '.' . $request->file('image')->extension();
@@ -136,7 +139,6 @@ class ProductsController extends Controller
             }
         }
 
-
         if ($request->input('value') != '') {
             $types = explode(';', $request->input('type'));
             $values = array_map(function ($value) {
@@ -146,7 +148,9 @@ class ProductsController extends Controller
                     'optionValues' => explode(', ', $parts[0]),
                     'price' => $pristowei[0],
                     'stock' => $pristowei[1],
+                    'total_stock' => $pristowei[1],
                     'weight' => $pristowei[2],
+
                 ];
             }, explode(';', $request->input('value')));
 
@@ -154,8 +158,9 @@ class ProductsController extends Controller
             foreach ($values as $value) {
                 $productVariant = ProductVariant::create([
                     'product_id' => $product->id,
-                    'price' => $value['price'],
+                    'price' => $request['price'],
                     'stock' => $value['stock'],
+                    'total_stock' => $value['stock'],
                     'weight' => $value['weight'],
                 ]);
                 for ($i = 0; $i < count($types); $i++) {
@@ -166,12 +171,36 @@ class ProductsController extends Controller
                     ]);
                 }
             }
+        } else {
+            $productVariant = ProductVariant::create([
+                'product_id' => $product->id,
+                'price' => $validatedData['price'],
+                'stock' => $validatedData['stock'],
+                'total_stock' => $validatedData['stock'],
+                'weight' => $validatedData['weight'],
+
+            ]);
         }
 
         if (ProductVariant::where('product_id', $product->id)->count() > 1) {
             $product->update(['is_variant' => true]);
         }
+        
+        if ($request->filled('keywords')) {
+            foreach ($request->input('keywords') as $keyword) {
+                $product->keywords()->create(['keyword' => $keyword]);
+            }
+        }
 
+        //create image;
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $index => $image) {
+                $imageName = '/product-' . time() . $index . '.' . $image->extension();
+                $image->move(public_path('storage/image/product-images'), $imageName);
+                $path = 'storage/image/product-images' . $imageName;
+                $product->images()->create(['image' => $path]);
+            }
+        }
         return redirect()->route('supplier.products.index')->with('success', 'Product created successfully.');
     }
 

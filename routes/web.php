@@ -101,6 +101,7 @@ Route::post('send-customer', [MessageController::class, 'sendCustomer'])->name('
 
 Route::get('product/{id}', [PagesController::class, 'product'])->name('product');
 Route::get('supplier/{id}', [PagesController::class, 'supplier'])->name('supplier');
+Route::get('category/{id}', [PagesController::class, 'category'])->name('category');
 
 Route::get('supplier/{id}', [PagesController::class, 'supplier'])->name('supplier');
 Route::get('supplier/{id}/product', [PagesController::class, 'supplierProducts'])->name('supplier-product');

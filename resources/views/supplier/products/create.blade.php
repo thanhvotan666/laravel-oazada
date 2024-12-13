@@ -1,6 +1,6 @@
 @extends('layouts.supplier')
 
-@section('title',  request()->getHost() .' - Products create')
+@section('title', request()->getHost() . ' - Products create')
 @section('content')
     <script>
         let timeoutCategoryType = null;
@@ -66,7 +66,7 @@
                             placeholder="Write name here..." value="{{ old('name', '') }}">
                     </div>
                     <div class="">
-                        <label class="h5" for="description">Product Description</label>
+                        <label class="h5" for="description">Product Description <sup class="text-danger">*</sup></label>
                         {{-- create --}}
                         <div id="description-editor" style="height: auto;">
                             {!! old('description', '') !!}
@@ -76,7 +76,7 @@
                     </div>
                     <!-- dropzone -->
                     <div class="container mt-5">
-                        <label for="fileUpload" class="h5">Display images</label>
+                        <label for="fileUpload" class="h5">Display image <sup class="text-danger">*</sup></label>
                         <div class="image-upload">
                             <input type="file" id="fileUpload" accept="image/*" class="d-none" name="image">
                             <p class="mt-2">
@@ -92,8 +92,57 @@
                                 onclick="document.getElementById('fileUpload').click(); return false;">
                         </div>
                     </div>
+
+                    <div class="container mt-3">
+                        <label for="multipleFileUpload" class="h5">Another images</label>
+                        <div class="image-upload">
+                            <input type="file" id="multipleFileUpload" accept="image/*" class="d-none" name="images[]"
+                                multiple onchange="previewMultipleImages(this)">
+                            <p class="mt-2">
+                                Drag your photos here or
+                                <a href="#" class="text-primary"
+                                    onclick="document.getElementById('multipleFileUpload').click(); return false;">
+                                    Browse from device
+                                </a>
+                            </p>
+                            <div id="multiplePreviewContainer" class="d-flex flex-wrap gap-2"></div>
+                        </div>
+                    </div>
+
+                    <script>
+                        function previewSingleImage(input) {
+                            if (input.files && input.files[0]) {
+                                const reader = new FileReader();
+                                reader.onload = function(e) {
+                                    document.getElementById('previewImage').src = e.target.result;
+                                };
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+
+                        function previewMultipleImages(input) {
+                            const container = document.getElementById('multiplePreviewContainer');
+                            container.innerHTML = ""; // Clear previous images
+                            if (input.files) {
+                                Array.from(input.files).forEach(file => {
+                                    const reader = new FileReader();
+                                    reader.onload = function(e) {
+                                        const img = document.createElement('img');
+                                        img.src = e.target.result;
+                                        img.alt = "Preview";
+                                        img.className = "rounded";
+                                        img.width = 100;
+                                        img.height = 100;
+                                        container.appendChild(img);
+                                    };
+                                    reader.readAsDataURL(file);
+                                });
+                            }
+                        }
+                    </script>
+
                     <div class="">
-                        <div class="h5">Inventory</div>
+                        <div class="h5">Inventory <sup class="text-danger">*</sup></div>
                         <div class="d-flex h-100">
                             <div class="inventory d-flex flex-column justify-content-between w-25">
                                 <div class="px-0 btn btn-outline-dark border border-start-0 py-3 text-secondary active">
@@ -142,7 +191,7 @@
                                         <label for="">Regular price <sup class="text-danger">*</sup></label>
 
                                         <input class="form-control" type="text" name="price" min="0"
-                                            placeholder="$" value="{{ old('price', '') }}">
+                                            placeholder="$" value="{{ old('price', 1) }}">
 
                                     </div>
                                     <div class="d-none flex-column border-top w-100" id="price-options">
@@ -208,7 +257,7 @@
                                         <input class="d-none form-control" type="number" name="" id="stock"
                                             min='0' value="" placeholder="Quantity" oninput="">
                                         <input class=" form-control" type="number" name="stock" min='0'
-                                            id="stock-none" value="{{ old('stock', '') }}" placeholder="Quantity">
+                                            id="stock-none" value="{{ old('stock', 100) }}" placeholder="Quantity">
 
                                     </div>
 
@@ -220,7 +269,7 @@
                                     <div class="">
                                         <label class="h4">Weight (kg) <sup class="text-danger">*</sup></label>
                                         <input class="form-control" type="text" name="weight" id="weight-none"
-                                            placeholder="Weight: 0.15" value="{{ old('weight', '') }}">
+                                            placeholder="Weight: 0.15" value="{{ old('weight', 0.15) }}">
                                         <input class="d-none form-control" type="text" name="" id="weight"
                                             placeholder="Weight: 0.15" value="0.1" oninput="">
                                     </div>
@@ -229,7 +278,7 @@
                             <!-- Attributes -->
                             <div class="d-none border border-end-0 w-100">
                                 <div class="w-100 d-flex flex-column justify-content-between p-4">
-                                    <div class="h4">Attributes <sup class="text-danger">*</sup></div>
+                                    <div class="h4">Attributes</div>
                                     <div>
                                         <input type="checkbox" name="fragile" id="" value="1"
                                             @checked(old('fragile', '0'))> Fragile
@@ -409,9 +458,29 @@
                         </div>
                     </div>
                 </div>
+                <div class="mb-3">
+                    <label for="keywords" class="form-label">Keywords</label>
+
+                    <!-- Hiển thị các từ khóa đã nhập trước đó -->
+                    @if (old('keywords'))
+                        @foreach (old('keywords') as $keyword)
+                            <input type="text" name="keywords[]" class="form-control mt-2"
+                                value="{{ $keyword }}" placeholder="Enter a keyword">
+                        @endforeach
+                    @else
+                        <!-- Nếu chưa có từ khóa nào, hiển thị một input mặc định -->
+                        <input type="text" id="keywords" name="keywords[]" class="form-control"
+                            placeholder="Enter a keyword">
+                    @endif
+
+                    <div id="additional-keywords"></div>
+
+                    <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="add-keyword">Add Another
+                        Keyword</button>
+                </div>
                 <div class="p-1 w-100">
                     <div class="d-flex flex-column gap-4 bg-white p-3 rounded-4 border">
-                        <div class="h5">Variants <sup class="text-danger">*</sup></div>
+                        <div class="h5">Variants</div>
                         <div id="options"></div>
                         <div>
                             <input type="button" class="btn btn-orange form-control fw-bold" id="addOption"
@@ -805,5 +874,15 @@
             renderSavedVariants();
             onOptionChange();
         @endif
+        document.getElementById('add-keyword').addEventListener('click', function() {
+            const container = document.getElementById('additional-keywords');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'keywords[]';
+            input.className = 'form-control mt-2';
+            input.placeholder = 'Enter a keyword';
+            container.appendChild(input);
+        });
     </script>
+
 @endsection

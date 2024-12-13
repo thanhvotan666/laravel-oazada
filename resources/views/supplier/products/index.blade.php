@@ -1,7 +1,7 @@
 @extends('layouts.supplier')
-@section('title',  request()->getHost() . ' - Products')
+@section('title', request()->getHost() . ' - Products')
 @section('content')
-    <div class="container-fluid d-flex flex-column gap-4 ">
+    <div class="container-fluid d-flex flex-column gap-4 bg-grey">
         <div class="p-5 d-flex flex-column gap-4">
             <div class="d-flex justify-content-between">
                 <div class="h2 fw-bold ">
@@ -12,7 +12,7 @@
                 </a>
             </div>
             @include('include.showAlert')
-            <div class="container-fluid bg-white border rounded-4">
+            <div class="container-fluid bg-white border rounded-4" style="min-height: 450px">
                 <form action="{{ route('supplier.products.index') }}">
                     <div class="navbar">
                         <div class="container-fluid">
@@ -134,6 +134,7 @@
                                     <th scope="col">Image</th>
                                     <th scope="col">Is Variant</th>
                                     <th scope="col">Category</th>
+                                    <th scope="col">Supplier</th>
                                     <th scope="col">Hidden</th>
                                     <th scope="col"></th>
                                 </tr>

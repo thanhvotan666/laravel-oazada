@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\CategoryType;
 use App\Models\Country;
 use App\Models\Product;
+use App\Models\ProductKeyword;
 use App\Models\ProductReview;
 use App\Models\ProductVariant;
 use App\Models\Supplier;
@@ -64,6 +65,8 @@ class PagesController extends Controller
                 $q->where('id', $product->supplier->id);
             }
         )->orderByDesc('id')->paginate(3);
+
+        $product->update(['view' => $product->view + 1]);
         return view('pages.product', compact(
             'product',
             'categoryTypes',
@@ -148,5 +151,22 @@ class PagesController extends Controller
         //dd($validateData);
         SupplierContact::create($validateData);
         return redirect(route('supplier-contacts', $supplier->id))->with('success', "You have successfully submitted your request.");
+    }
+
+    public function category(Request $request, $id)
+    {
+        $category = Category::find($id);
+        $keywords = ProductKeyword::whereHas('product', function ($q) use ($category) {
+            $q->where('category_id', $category->id);
+        })->inRandomOrder()->get()->unique('keyword');
+        $categoryTypes = CategoryType::all();
+
+        $keyProducts = Product::where('category_id', $category->id)->paginate(30);
+        return view('pages.category', compact(
+            'category',
+            'keywords',
+            'categoryTypes',
+            'keyProducts',
+        ));
     }
 }

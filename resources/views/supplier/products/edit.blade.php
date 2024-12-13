@@ -1,5 +1,5 @@
 @extends('layouts.supplier')
-@section('title',  request()->getHost() . ' - Products Edit')
+@section('title', request()->getHost() . ' - Products Edit')
 @section('content')
     <script>
         let timeoutCategoryType = null;
@@ -414,6 +414,23 @@
                 </div>
                 <div class="p-1 w-100">
                     <div class="d-flex flex-column gap-4 bg-white p-3 rounded-4 border">
+                        <label for="keywords" class="form-label">Keywords</label>
+
+                        <!-- Hiển thị các từ khóa hiện tại -->
+                        @foreach ($product->keywords as $keyword)
+                            <input type="text" name="keywords[]" class="form-control mt-2"
+                                value="{{ old('keywords')[$loop->index] ?? $keyword->keyword }}"
+                                placeholder="Enter a keyword">
+                        @endforeach
+
+                        <!-- Thêm các từ khóa mới nếu cần -->
+                        <div id="additional-keywords"></div>
+                        <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="add-keyword">Add Another
+                            Keyword</button>
+                    </div>
+                </div>
+                <div class="p-1 w-100">
+                    <div class="d-flex flex-column gap-4 bg-white p-3 rounded-4 border">
                         <div class="h5">Variants <sup class="text-danger">*</sup></div>
                         <div id="options"></div>
                         <div>
@@ -781,8 +798,40 @@
             }
         }
 
-        function doAtStart() {
+        // function doAtStart() {
 
+        //     const types = parseVariantsData(inputVariantsData);
+        //     for (let i = 0; i < types.length; i++) {
+        //         addOptionButton.click();
+        //         types[i].values.forEach((e) => {
+        //             document.getElementById(`value-input-${i+1}`).value = e;
+        //             document.getElementById(`value-button-${i+1}`).click();
+        //         })
+        //         //edit
+        //         document.getElementById(`value-button-${i+1}`).disabled = true;
+
+        //         document.getElementById(`type-option-${i+1}`).value = types[i].type;
+        //         document.getElementById(`button-option-save-${i+1}`).click();
+        //     }
+        //     //edit
+        //     addOptionButton.disabled = true;
+        //     document.querySelectorAll(".remove-option").forEach(ro => {
+        //         ro.classList.add('d-none');
+        //     });
+
+
+        //     if (types.length > 0) {
+        //         checkOptionsFlex();
+        //         updateHiddenValue();
+        //         updateHiddenType();
+
+        //         renderSavedVariants();
+        //         onOptionChange();
+        //     }
+        // }
+
+        // doAtStart();
+        @if ($inputType != '')
             const types = parseVariantsData(inputVariantsData);
             for (let i = 0; i < types.length; i++) {
                 addOptionButton.click();
@@ -802,18 +851,13 @@
                 ro.classList.add('d-none');
             });
 
+            checkOptionsFlex();
+            updateHiddenValue();
+            updateHiddenType();
 
-            if (types.length > 0) {
-                checkOptionsFlex();
-                updateHiddenValue();
-                updateHiddenType();
-
-                renderSavedVariants();
-                onOptionChange();
-            }
-        }
-
-        doAtStart();
+            renderSavedVariants();
+            onOptionChange();
+        @endif
     </script>
     <script>
         //choose file 
@@ -833,5 +877,15 @@
             inputElement.files = dataTransfer.files;
         }
         setImageInput('{{ asset($product->image) }}');
+
+        document.getElementById('add-keyword').addEventListener('click', function() {
+            const container = document.getElementById('additional-keywords');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'keywords[]';
+            input.className = 'form-control mt-2';
+            input.placeholder = 'Enter a keyword';
+            container.appendChild(input);
+        });
     </script>
 @endsection

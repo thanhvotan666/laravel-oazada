@@ -1,4 +1,44 @@
 <div class="container-fluid" style="margin-top: 100px;">
+    <div class="d-flex w-100 justify-content-between border ps-5"
+        style="background-color: rgba(128, 255, 0, 0.3);border-color: chartreuse">
+        <div class="d-flex flex-column justify-content-between  py-4" style="width: 250px ">
+            <div>
+                <img src="{{ asset($randomSupplier->user->avatar) }}" alt="{{ $randomSupplier->name }}" height="30">
+                - {{ $randomSupplier->name }}
+            </div>
+
+            <div class="d-flex gap-2">
+                <div>Ratings & Reviews: </div>
+                <div>{{ $allReviews->average('star') }}</div>
+                <div>
+                    /5
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
+                        <path
+                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="overflow-x-auto d-flex gap-3 w-100 justify-content-end px-3">
+            @foreach ($randomSupplier->products->take(6) as $product)
+                <div>
+                    <div>
+                        <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" width="100"
+                            height="100">
+                    </div>
+                    <div class="fw-bold">
+                        @if ($product->is_variant)
+                            ${{ $product->variants->min('price') }} -
+                            ${{ $product->variants->max('price') }}
+                        @else
+                            ${{ $product->variants->min('price') }}
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
     <div class="d-flex w-100 justify-content-between">
         <div>Showing 300,000+ products from global suppliers for "{{ request('name') }}"</div>
         <div>

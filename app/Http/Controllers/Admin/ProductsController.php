@@ -63,16 +63,18 @@ class ProductsController extends Controller
             return redirect()->back()->with('success', 'Product hidden updated successfully.');
         }
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'description' => 'nullable|string',
-            'stock' => 'required|integer',
+        $validatedData = $request->validate([
+            'name' => 'required|string|min:8',
+            'image' => 'required|file',
         ]);
-
-        $product = Product::findOrFail($product->id);
-        $product->update($request->all());
-        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
+        if ($request->hasFile('image')) {
+            $imageName = '/product' . $product->id . '-' . time() . '.' . $request->file('image')->extension();
+            $request->file('image')->move(public_path('storage/image/product'), $imageName);
+            $validatedData['image'] = 'storage/image/product' . $imageName;
+            $product->update($validatedData);
+            return redirect()->back()->with('success', 'Product image updated successfully.');
+        }
+        return redirect()->back()->with('error', 'No action!');
     }
 
     public function destroy($id)

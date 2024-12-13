@@ -1,6 +1,8 @@
-<div class="d-flex justify-content-between p-3 border-bottom">
-    <div class=""><a href="{{ route('supplier.dashboard') }}"><img src="{{ asset('storage/image/logo.png') }}"
-                alt="" height="24"></a>
+<div class="bg-white d-flex justify-content-between p-3 border-bottom">
+    <div class="d-flex align-items-center">
+        <a href="{{ route('supplier.dashboard') }}">
+            <img src="{{ asset('storage/image/logo.png') }}" alt="" height="30">
+        </a>
     </div>
     <div class="dropdown">
         <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

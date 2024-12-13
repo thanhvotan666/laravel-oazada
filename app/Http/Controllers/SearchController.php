@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\CategoryType;
 use App\Models\Country;
 use App\Models\Product;
+use App\Models\ProductReview;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 
@@ -78,12 +79,21 @@ class SearchController extends Controller
             :
             Category::all();
 
+        $randomSupplier = Supplier::inRandomOrder()->take(1)->first();
+        $allReviews = ProductReview::wherehas(
+            'product',
+            function ($q) use ($randomSupplier) {
+                $q->where('supplier_id', $randomSupplier->id);
+            }
+        )->orderByDesc('id')->get();
         return view('search.index', compact(
             'products',
             'categoryTypes',
             'categories',
             'countries',
             'filterCategories',
+            'randomSupplier',
+            'allReviews'
         ));
     }
 

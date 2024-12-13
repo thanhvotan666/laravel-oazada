@@ -2,7 +2,7 @@
 
 @section('title',  request()->getHost() . ' - Orders')
 @section('content')
-    <div class="container-fluid d-flex flex-column gap-4 ">
+    <div class="container-fluid d-flex flex-column gap-4 bg-grey">
         <div class="p-5 d-flex flex-column gap-4">
             <div class="d-flex justify-content-between">
                 <div class="h2 fw-bold ">
@@ -13,7 +13,7 @@
                     Add
                 </a> --}}
             </div>
-            <div class="container-fluid bg-white border rounded-4">
+            <div class="container-fluid bg-white border rounded-4" style="min-height: 450px">
                 <form class="" method="GET" action="">
                     <div class="navbar">
                         <div class="container-fluid">

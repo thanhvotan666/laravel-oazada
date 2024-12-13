@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', request()->getHost() . ' - Home')
+@section('title', request()->getHost() . ' - E-commerse B2B')
 @section('content')
     <link rel="stylesheet" href="{{ asset('storage/css/index.css') }}">
     <main>

@@ -15,7 +15,7 @@
                 </a> --}}
             </div>
             @include('include.showAlert')
-            <div class="container-fluid bg-white border rounded-4">
+            <div class="container-fluid bg-white border rounded-4" style="min-height: 450px">
                 <form class="" method="GET" action="">
                     <div class="navbar">
                         <div class="container-fluid">

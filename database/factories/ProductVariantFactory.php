@@ -19,7 +19,7 @@ class ProductVariantFactory extends Factory
         $stock = random_int(0, 100);
         return [
             'product_id' => '',
-            'image' => "storage/image/product-variant/" . $this->faker->image(public_path('storage/image/product-variant/')),
+            //'image' => "storage/image/product-variant/" . $this->faker->image(public_path('storage/image/product-variant/')),
             'weight' => random_int(1, 1000) / 1000,
             'price' => random_int(1, 100),
             'stock' => $stock,

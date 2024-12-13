@@ -23,6 +23,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('supplier_id');
             $table->boolean('hidden')->default(false);
+            $table->unsignedBigInteger('view')->default(0);
             $table->timestamps();
 
             // Khóa ngoại tham chiếu đến bảng categories
