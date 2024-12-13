@@ -261,11 +261,17 @@
                         <u>{{ $product->supplier->name }}</u>
                     </a>
                     <div class="d-flex gap-4 justify-content-between" style="height: 600px; ">
-                        <div class="col-sm-2 d-flex flex-column justify-content-between">
+                        <div class="col-sm-2 d-flex flex-column justify-content-between overflow-y-auto">
                             <div class="">
                                 <img class="w-75 rounded-4" src="{{ asset($product->image) }}"
                                     alt="{{ $product->name }}" onclick="showImage(this)">
                             </div>
+                            @foreach ($product->images as $productImage)
+                                @if ($productImage->image != '')
+                                    <div><img onclick="showImage(this)" class="w-75 rounded-4"
+                                            src="{{ asset($productImage->image) }}" alt=""></div>
+                                @endif
+                            @endforeach
                             @foreach ($product->variants as $variant)
                                 @if ($variant->image != '')
                                     <div><img onclick="showImage(this)" class="w-75 rounded-4"
@@ -275,8 +281,8 @@
 
                         </div>
                         <div class="col-lg-9 bg-grey d-flex justify-content-center align-items-center">
-                            <div class="w-100"><img id="showimage" class="w-100" src="{{ asset($product->image) }}"
-                                    alt=""></div>
+                            <div class="w-100"><img id="showimage" class="h-100 w-100"
+                                    src="{{ asset($product->image) }}" alt=""></div>
                         </div>
                     </div>
                     <div>

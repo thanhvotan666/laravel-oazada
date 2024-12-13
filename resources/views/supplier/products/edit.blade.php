@@ -81,7 +81,6 @@
                         <input type="hidden" name="description" id="description">
 
                     </div>
-                    <!-- dropzone -->
                     <div class="container mt-5">
                         <label for="fileUpload" class="h5">Display images</label>
                         <div class="image-upload">
@@ -99,6 +98,28 @@
                                 onclick="document.getElementById('fileUpload').click(); return false;">
                         </div>
                     </div>
+
+                    {{-- images --}}
+                    <div class="container mt-5">
+                        <label class="h5">Current Images</label>
+                        <div class="d-flex flex-wrap gap-3">
+                            @foreach ($product->images as $image)
+                                <div class="position-relative">
+                                    <img src="{{ asset($image->image) }}" alt="Product Image" class="rounded" width="150"
+                                        height="150">
+                                    <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                        onclick="removeImage('{{ $image->id }}')">X</button>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="container mt-3">
+                        <label class="h5">Add New Images</label>
+                        <input type="file" name="images[]" id="multipleFileUpload" accept="image/*" multiple>
+                    </div>
+
+
                     <div class="">
                         <div class="h5">Inventory</div>
                         <div class="d-flex h-100">
@@ -887,5 +908,27 @@
             input.placeholder = 'Enter a keyword';
             container.appendChild(input);
         });
+    </script>
+
+    <script>
+        function removeImage(imageId) {
+            if (confirm('Are you sure you want to delete this image?')) {
+                fetch(`{{ route('index') }}/supplier/images/${imageId}/delete`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Deleted the image.');
+                            location.reload(); // Reload the page to reflect the changes
+                        } else {
+                            alert('Failed to delete the image.');
+                        }
+                    });
+            }
+        }
     </script>
 @endsection

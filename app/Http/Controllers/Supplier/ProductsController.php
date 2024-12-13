@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\CategoryType;
 use App\Models\Product;
 use App\Models\ProductAttribute;
+use App\Models\ProductImage;
 use App\Models\ProductKeyAttribute;
 use App\Models\ProductVariant;
 use App\Models\Supplier;
@@ -185,7 +186,7 @@ class ProductsController extends Controller
         if (ProductVariant::where('product_id', $product->id)->count() > 1) {
             $product->update(['is_variant' => true]);
         }
-        
+
         if ($request->filled('keywords')) {
             foreach ($request->input('keywords') as $keyword) {
                 $product->keywords()->create(['keyword' => $keyword]);
@@ -232,7 +233,7 @@ class ProductsController extends Controller
             'description' => 'nullable|string',
             'code' => 'required|string',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'required|image',
+            'image' => 'required|file',
 
             'fragile' => 'nullable|boolean',
             'biodegradable' => 'nullable|boolean',
@@ -331,6 +332,25 @@ class ProductsController extends Controller
 
         $product->update($validatedData);
         $productAttribute->update($validatedData);
+
+        $product->keywords()->delete();
+        if ($request->filled('keywords')) {
+            foreach ($request->input('keywords') as $keyword) {
+                if (trim($keyword) !== '') {
+                    $product->keywords()->create(['keyword' => $keyword]);
+                }
+            }
+        }
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $index => $image) {
+                $imageName = '/product-' . time() . $index . '.' . $image->extension();
+                $image->move(public_path('storage/image/product-images'), $imageName);
+                $path = 'storage/image/product-images' . $imageName;
+                $product->images()->create(['image' => $path]);
+            }
+        }
+
         return redirect()->route('supplier.products.index')->with('success', 'Product updated successfully.');
     }
 

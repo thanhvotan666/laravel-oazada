@@ -17,8 +17,10 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Supplier\ContactsController;
 use App\Http\Controllers\Supplier\DashboardController as SupplierDashboardController;
 use App\Http\Controllers\Supplier\OrdersController as SupplierOrdersController;
+use App\Http\Controllers\Supplier\ProductImagesController;
 use App\Http\Controllers\Supplier\ProductsController as SupplierProductsController;
 use App\Http\Controllers\Supplier\ProfileController;
+use App\Models\ProductImage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +54,7 @@ Route::prefix('supplier')->name('supplier.')->middleware(['auth', 'role:supplier
     Route::resource('products', SupplierProductsController::class);
     Route::resource('profile', ProfileController::class);
     Route::resource('contacts', ContactsController::class);
+    Route::delete('/images/{id}/delete', [ProductImagesController::class, 'deleteImage'])->name('delete-image');
 });
 
 Route::prefix('ajax')->name('ajax.')->group(function () {

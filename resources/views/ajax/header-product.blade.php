@@ -5,7 +5,7 @@
             class="d-flex flex-column justify-content-center align-items-center">
             <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" width="70" height="70"
                 class="rounded-circle">
-            <div>{{ $product->name }}</div>
+            <div class="card-content" style="width: 100px;">{{ $product->name }}</div>
         </a>
     @endforeach
 </div>
