@@ -395,6 +395,10 @@ class AuthController extends Controller
         $order->update([
             'status' => 'canceled'
         ]);
+        $product = ProductVariant::find($order->detail()->product_variant_id);
+        if ($product) {
+            $product->update(['stock' => $product->stock + $order->detail()->quantity]);
+        }
         return back()->with('success', 'Order has been canceled!');
     }
     public function productReview(Request $request)

@@ -421,9 +421,23 @@
                                 <small class="text-muted d-flex gap-1">
                                     <div><img src="{{ asset('storage/image/icon/verified icon.png') }}" alt="verified"
                                             height="20px"></div>
-                                    <div>10 yrs</div>
+                                    <div>
+                                        @if (now()->diffInYears($productInspiration->created_at) != 0)
+                                            {{ now()->diffInYears($productInspiration->created_at) }} years ago
+                                        @elseif (now()->diffInMonths($productInspiration->created_at) != 0)
+                                            {{ now()->diffInMonths($productInspiration->created_at) }} months ago
+                                        @elseif (now()->diffInDays($productInspiration->created_at) != 0)
+                                            {{ now()->diffInDays($productInspiration->created_at) }} days ago
+                                        @elseif (now()->diffInHours($productInspiration->created_at) != 0)
+                                            {{ now()->diffInHours($productInspiration->created_at) }} hours ago
+                                        @else
+                                            {{ now()->diffInMinutes($productInspiration->created_at) ?? 0 }} munites ago
+                                        @endif
+                                    </div>
                                     <div>.</div>
-                                    <div>CN</div>
+                                    <div>
+                                        {{ $productInspiration->supplier->user->country->code }}
+                                    </div>
                                 </small>
                             </div>
                         </a>

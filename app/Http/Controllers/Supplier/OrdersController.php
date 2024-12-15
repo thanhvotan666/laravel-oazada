@@ -70,6 +70,10 @@ class OrdersController extends Controller
                 'order_id' => $order->id,
                 'cause' => $request->cause,
             ]);
+            $product = ProductVariant::find($order->detail()->product_variant_id);
+            if ($product) {
+                $product->update(['stock' => $product->stock + $order->detail()->quantity]);
+            }
         }
         return redirect()->route('supplier.orders.show', ['order' => $id])->with('success', 'Order updated successfully.');
     }
