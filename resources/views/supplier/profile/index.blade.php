@@ -1,5 +1,5 @@
 @extends('layouts.supplier')
-@section('title',  request()->getHost() .' - Profile')
+@section('title',  request()->getHost() .': Profile')
 @section('content')
     <main class="container-fluid bg-grey py-5">
         @include('include.showAlert')

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title',  request()->getHost() . ' - Order - ' . $order->id)
+@section('title',  request()->getHost() . ': Order - ' . $order->id)
 @section('content')
     <main class="container-fluid bg-grey">
         <div class="container">

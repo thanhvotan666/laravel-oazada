@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-
+@section('title', request()->getHost() . ': Admin - User - ' . $user->id . ' - Edit')
 @section('content')
     <main class="container">
         <h1>Edit User - Id: {{ $user->id }}</h1>

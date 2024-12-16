@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title',  request()->getHost() .' - Carts')
+@section('title',  request()->getHost() .': Carts')
 @section('content')
     <main class="container-fluid bg-grey">
         <div class="container">

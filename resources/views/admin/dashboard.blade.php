@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', request()->getHost() . ' - Admin - Dashboard')
+@section('title', request()->getHost() . ': Admin - Dashboard')
 @section('content')
     <main class="container-fluid p-0 bg-grey">
         <div class="container-fluid p-4 py-5 d-flex flex-column gap-3">

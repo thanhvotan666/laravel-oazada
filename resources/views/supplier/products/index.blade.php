@@ -1,5 +1,5 @@
 @extends('layouts.supplier')
-@section('title', request()->getHost() . ' - Products')
+@section('title', request()->getHost() . ': Products')
 @section('content')
     <div class="container-fluid d-flex flex-column gap-4 bg-grey">
         <div class="p-5 d-flex flex-column gap-4">

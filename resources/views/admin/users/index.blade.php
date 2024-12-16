@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-
+@section('title', request()->getHost() . ': Admin - Users')
 @section('content')
     <div class="container-fluid d-flex flex-column gap-4 ">
         <div class="p-5 d-flex flex-column gap-4">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title',  request()->getHost() .' - Favorites')
+@section('title',  request()->getHost() .': Favorites')
 @section('content')
     <main class="container-fluid py-4 bg-grey">
         <div class="container">

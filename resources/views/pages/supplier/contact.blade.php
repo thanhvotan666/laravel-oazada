@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', request()->getHost() . 'Contact to ' . $supplier->name)
+@section('title', request()->getHost() . ': Contact to ' . $supplier->name)
 @section('content')
     @if (!auth()->check())
         <h2 class="container-fluid text-center text-danger" style="height:600px">You need to login to continue!</h2>

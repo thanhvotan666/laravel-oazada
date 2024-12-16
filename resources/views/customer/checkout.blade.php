@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title',  request()->getHost() . ' - Checkout')
+@section('title',  request()->getHost() . ': Checkout')
 @section('content')
     @php
         $itemSuptotal = 0;

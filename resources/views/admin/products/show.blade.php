@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title',  request()->getHost() . ' - Admin -Product show')
+@section('title',  request()->getHost() . ': Admin -Product show')
 @section('content')
     <div class="container">
         @if (session('success'))

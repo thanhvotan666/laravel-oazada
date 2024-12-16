@@ -390,7 +390,7 @@ class AuthController extends Controller
         CancelOrder::create([
             'order_id' => $id,
             'cause' => $request->input('cause'),
-            'by' => 'customer'
+            'by' => 'customer',
         ]);
         $order->update([
             'status' => 'canceled'

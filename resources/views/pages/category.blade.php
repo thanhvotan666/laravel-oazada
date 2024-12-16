@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', request()->getHost() . ' - ' . $category->name)
+@section('title', request()->getHost() . ': ' . $category->name)
 @section('content')
     <main class="container-fluid bg-grey pb-5 px-0">
         <div class="container-fluid p-0"

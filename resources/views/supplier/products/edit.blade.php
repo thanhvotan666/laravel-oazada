@@ -1,5 +1,5 @@
 @extends('layouts.supplier')
-@section('title', request()->getHost() . ' - Products Edit')
+@section('title', request()->getHost() . ': Products Edit')
 @section('content')
     <script>
         let timeoutCategoryType = null;

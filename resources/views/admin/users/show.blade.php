@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-
+@section('title', request()->getHost() . ': Admin - User - ' . $user->id)
 @section('content')
     @if ($user->role === 'customer')
         <main class="container-fluid bg-grey">
